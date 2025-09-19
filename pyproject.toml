@@ -1,0 +1,179 @@
+[build-system]
+requires = ["setuptools>=61.0", "setuptools_scm>=8.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flipbook"
+description = "Flipbook reads an MCMC chain and animates model curves for chosen walkers across steps, for a passed in model function f(theta, t) → y, with optional data overlays."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "BSD-2-Clause"}
+authors = [
+    {name = "Amber Malpas", email = "malpas.1@osu.edu"},
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Astronomy",
+]
+keywords = ["astronomy", "microlensing", "mcmc", "animation", "visualization"]
+dependencies = [
+    "numpy>=1.20",
+    "matplotlib>=3.5.0",
+    "astropy>=5.0",
+    "tqdm>=4.60.0",
+    "emcee>=3.0.0",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/AmberLee2427/flipbook"
+Documentation = "https://flipbook.readthedocs.io/"
+Repository = "https://github.com/AmberLee2427/flipbook.git"
+Issues = "https://github.com/AmberLee2427/flipbook/issues"
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "pytest-xdist>=3.0",
+    "pytest-mock>=3.10",
+]
+dev = [
+    "ruff>=0.1.0",
+    "black>=23.0",
+    "pre-commit>=3.0",
+    "mypy>=1.5",
+    "isort>=5.12",
+]
+docs = [
+    "sphinx>=5.0",
+    "sphinx-astropy>=1.9",
+    "sphinx-automodapi>=0.15",
+    "numpydoc>=1.5",
+]
+all = [
+    "flipbook[test,dev,docs]",
+]
+
+[tool.setuptools]
+packages = ["flipbook"]
+
+[tool.setuptools_scm]
+write_to = "flipbook/_version.py"
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=flipbook",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+]
+xfail_strict = true
+filterwarnings = [
+    "error",
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning",
+]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["flipbook"]
+omit = [
+    "flipbook/_version.py",
+    "flipbook/tests/*",
+    "*/tests/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 88
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "PGH",  # pygrep-hooks
+    "RUF",  # Ruff-specific rules
+    "YTT",  # flake8-2020
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B905",  # `zip()` without an explicit `strict=` parameter
+]
+
+[tool.ruff.per-file-ignores]
+"tests/**/*" = ["PGH001"]
+
+[tool.ruff.isort]
+known-first-party = ["flipbook"]
+
+[tool.black]
+target-version = ['py39']
+line-length = 88
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "emcee.*",
+    "tqdm.*",
+    "astropy.*",
+]
+ignore_missing_imports = true
