@@ -27,25 +27,25 @@ jobs:
             python: 3.x
             toxenv: codestyle
 
-          - name: Python 3.7 with minimal dependencies
+          - name: Python 3.9 with minimal dependencies
             os: ubuntu-latest
-            python: 3.7
-            toxenv: py37-test
+            python: 3.9
+            toxenv: py39-test
 
-          - name: Python 3.8 with all optional dependencies and coverage checking
+          - name: Python 3.11 with all optional dependencies and coverage checking
             os: ubuntu-latest
-            python: 3.8
-            toxenv: py38-test-alldeps-cov
+            python: 3.11
+            toxenv: py311-test-alldeps-cov
 
-          - name: macOS - Python 3.8 with all optional dependencies
+          - name: macOS - Python 3.11 with all optional dependencies
             os: macos-latest
-            python: 3.8
-            toxenv: py38-test-alldeps
+            python: 3.11
+            toxenv: py311-test-alldeps
 
-          - name: Windows - Python 3.8 with all optional dependencies
+          - name: Windows - Python 3.11 with all optional dependencies
             os: windows-latest
-            python: 3.8
-            toxenv: py38-test-alldeps
+            python: 3.11
+            toxenv: py311-test-alldeps
 
           # - name: Python 3.7 with oldest supported version of all dependencies
           #   os: ubuntu-16.04
@@ -64,11 +64,11 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - name: Set up python ${{ matrix.python }} on ${{ matrix.os }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python }}
     - name: Install base dependencies
