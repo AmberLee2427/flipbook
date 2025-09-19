@@ -79,6 +79,41 @@ flipbook.precompute_curves(model_fn, t, chain, *, steps=None, walkers=None, vect
 * Provide a small LRU cache for model_fn results keyed by (theta hash, id(t)) to avoid redundant evals when step thinning or reusing walkers.
 * For very heavy models, allow “preview mode”: fewer walkers, more thinning, then a high‑quality render.
 
+### Backends and writers
+- Matplotlib animation requires a writer; recommended:
+  - mp4: `ffmpeg` (install with `brew install ffmpeg` or `apt-get install ffmpeg`)
+  - gif: `imagemagick` or `pillow`
+- In headless environments, set `MPLBACKEND=Agg`.
+- Flipbook auto-detects available writers and raises a helpful error if none is found.
+
+### Vectorization and batching
+- If your `model_fn` accepts batched parameters (`Thetas[K, :]`), set `vectorized=True` for large speedups.
+- Otherwise, flipbook evaluates in chunks (`chunk_size`, default 32) and can parallelize with `n_jobs`.
+
+### Determinism
+- Selections that involve randomness accept `rng`/`random_state`. With the same inputs, Flipbook produces identical animations.
+
+## Installation
+
+```
+pip install -e .[dev,test]
+```
+
+Optional runtime dependencies for writers:
+- ffmpeg (mp4), imagemagick/pillow (gif)
+
+## Troubleshooting
+
+- “No MovieWriter available”: install a writer (e.g., ffmpeg) and ensure it is on PATH.
+- “Model output shape mismatch”: ensure `model_fn(theta, t)` returns a 1D array with the same length as `t`.
+- “Animations are slow”: try `vectorized=True`, reduce `max_curves_per_frame`, increase `thin`, or use batching with `n_jobs>1`.
+
+## Roadmap
+
+- CLI entry point (`flipbook-cli`) for quick animations from `.npy/.npz` chains.
+- Export frames to disk and compose video externally.
+- Optional panel/ipywidgets UI for interactive exploration.
+
 ## Example
 
 Minimal microlensing magnification animation (VBMicrolensing wrapper):
