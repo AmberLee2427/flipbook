@@ -1,4 +1,17 @@
-# Licensed under a 3-clause BSD style license - see LICENSE.rst
+"""Utility helpers exposed by :mod:`flipbook`."""
 
-# This sub-module is destined for common non-package specific utility
-# functions.
+from __future__ import annotations
+
+from .selection import (
+    compute_percentile_bands,
+    resolve_step_indices,
+    resolve_walker_indices,
+    select_topk_by_log_prob,
+)
+
+__all__ = [
+    "compute_percentile_bands",
+    "resolve_step_indices",
+    "resolve_walker_indices",
+    "select_topk_by_log_prob",
+]
