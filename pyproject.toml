@@ -175,5 +175,7 @@ module = [
     "emcee.*",
     "tqdm.*",
     "astropy.*",
+    "setuptools_scm.*",
+    "pytest_astropy_header.*",
 ]
 ignore_missing_imports = true

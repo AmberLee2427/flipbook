@@ -7,16 +7,23 @@ get picked up when running the tests inside an interpreter using
 
 """
 
+from __future__ import annotations
+
 import os
+from typing import TYPE_CHECKING
 
 try:
     from pytest_astropy_header.display import PYTEST_HEADER_MODULES, TESTED_VERSIONS
+
     ASTROPY_HEADER = True
 except ImportError:
     ASTROPY_HEADER = False
 
+if TYPE_CHECKING:
+    import pytest
 
-def pytest_configure(config):
+
+def pytest_configure(config: "pytest.Config") -> None:
     """Configure Pytest with Astropy.
 
     Parameters
@@ -25,14 +32,14 @@ def pytest_configure(config):
 
     """
     if ASTROPY_HEADER:
-
         config.option.astropy_header = True
 
         # Customize the following lines to add/remove entries from the list of
         # packages for which version numbers are displayed when running the tests.
-        PYTEST_HEADER_MODULES.pop('Pandas', None)
-        PYTEST_HEADER_MODULES['scikit-image'] = 'skimage'
+        PYTEST_HEADER_MODULES.pop("Pandas", None)
+        PYTEST_HEADER_MODULES["scikit-image"] = "skimage"
 
         from . import __version__
+
         packagename = os.path.basename(os.path.dirname(__file__))
         TESTED_VERSIONS[packagename] = __version__
