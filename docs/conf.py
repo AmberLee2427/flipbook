@@ -110,7 +110,7 @@ release = package.__version__
 # html_theme = None
 
 
-html_theme = "awesome"
+html_theme = 'sphinxawesome_theme'
 
 
 # Custom sidebar templates, maps document names to template names.

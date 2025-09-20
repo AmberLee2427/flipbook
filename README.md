@@ -138,3 +138,22 @@ anim = animate_walkers(
 ## Why this is universal
 
 Flipbook is agnostic to model semantics; any time‑series model fits as long as you provide model_fn(theta, t) → y.
+
+## Documentation
+
+Build the docs locally (macOS zsh):
+
+```bash
+python -m pip install -e .[docs]
+make -C docs html
+# open docs/_build/html/index.html
+```
+
+Using tox:
+
+```bash
+python -m pip install tox
+tox -e build_docs
+```
+
+Hosted docs: add this repo to Read the Docs and keep `.readthedocs.yaml` at the project root. RTD will install with the `docs` extra and build `docs/conf.py`.
