@@ -23,7 +23,7 @@ if TYPE_CHECKING:
     import pytest
 
 
-def pytest_configure(config: "pytest.Config") -> None:
+def pytest_configure(config: pytest.Config) -> None:
     """Configure Pytest with Astropy.
 
     Parameters

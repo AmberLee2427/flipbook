@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Any, Callable, Optional, Tuple, Union
+from typing import Any, Callable, Optional, Union
 
 import numpy as np
 import numpy.typing as npt
@@ -15,7 +15,7 @@ Array1D: TypeAlias = npt.NDArray[np.float64]
 Array2D: TypeAlias = npt.NDArray[np.float64]
 Array3D: TypeAlias = npt.NDArray[np.float64]
 IndexArray: TypeAlias = npt.NDArray[np.integer[Any]]
-StepBounds: TypeAlias = Tuple[Optional[int], Optional[int]]
+StepBounds: TypeAlias = tuple[Optional[int], Optional[int]]
 
 ModelFunction = Callable[[Array1D, Array1D], Array1D]
 VectorizedModelFunction = Callable[[Array2D, Array1D], Array2D]
